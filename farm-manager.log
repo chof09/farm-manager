@@ -1,0 +1,13 @@
+To do:
+
+Napraviti da klasa .dry ima prednost pred .fertilized ali status ostaje fertilized iako je suh plot
+
+Ispiši status plota u naslovu (options menu)
+
+Klasa .selected gazi .harvestable /// zapravo harvesta se na klik i ponovno automatski sadi
+
+Get Git
+
+
+bug list:
+- dry mijenja klasu samo prvom divu bez obzira koji je označen, provjeri kome mijenja status

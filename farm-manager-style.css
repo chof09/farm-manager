@@ -132,6 +132,7 @@ a:focus {
 }
 
 .grid-item.farm {
+    display: block;
     background-color: var(--empty-plot, #458417);
     /*background-image: url('imgs/textures/grass_top.jpg');*/
     border: 5px solid var(--neutral-border, #482E17);

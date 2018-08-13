@@ -81,7 +81,8 @@ $(document).ready(function(){
     };
 
     // Select plot
-    $plot.focusin(function() {
+    $plot.click(function(e) {
+        e.stopPropagation();
         $plot.removeClass('selected');
         $(this).addClass('selected');
         $selectedPlot = $(this);
@@ -95,11 +96,11 @@ $(document).ready(function(){
             if ($(this).hasClass('harvest')) {
                 plot[$n].harvest($n);
             }
-            setTimeout($showOptions, 150);
+            setTimeout($showOptions, 70);
         }
         // Show Buy menu if empty
         else {
-            setTimeout($showBuy, 150);
+            setTimeout($showBuy, 70);
         }
 
     });
@@ -110,12 +111,11 @@ $(document).ready(function(){
         $buyMenu.addClass('hidden');
     };
 
-    $plot.focusout(function() {
-        $(this).removeClass('selected');
-
-        // Hide menus
-        setTimeout($hideMenus, 150);
-
+    $('body,html').click(function(){
+        $hideMenus();
+        if ($selectedPlot) {
+            $selectedPlot.removeClass('selected');
+        }
     });
 
     // Buy Crop

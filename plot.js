@@ -74,6 +74,7 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
         $plotToDelete.removeClass('dry');
         $plotToDelete.removeClass('wet');
         $plotToDelete.removeClass('harvest');
+        $plotToDelete.removeClass('fertilized');
         $plotToDelete.html('');
         if ($plotToDelete.is(':focus')) {
             $plotToDelete.blur();

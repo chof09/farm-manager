@@ -24,6 +24,7 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
             $wateredPlot.removeClass('wet');
             $wateredPlot.removeClass('fertilized');
             $wateredPlot.addClass('dry');
+            drySound.play();
             self.timeoutDry(n);
         }, 6*25000);
     }
@@ -39,6 +40,7 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
             self.readyToHarvest = 1;
             let $harvestablePlot = $('.grid-item.farm:eq(' + n + ')');
             $harvestablePlot.addClass('harvest');
+            readySound.play();
         }, this.growth*25000);
     }
 
@@ -57,6 +59,7 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
         } else {
             $plotToWater.addClass('wet');
         }
+        waterSound.play();
         this.timeoutWet(n);
     }
 
@@ -89,13 +92,15 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
             $fertilizedPlot.removeClass('wet');
             $fertilizedPlot.addClass('fertilized');
         }
+        fertilizeSound.play();
     }
 
     this.harvest = function(n) {
         let $plotToHarvest = $('.grid-item.farm:eq(' + n + ')');
         $plotToHarvest.removeClass('fertilized');
         $plotToHarvest.removeClass('harvest');
-        let $myProfit = this.profit * (getRandomNumber(92, 100) / 100);
+        // gerRnadomNumber(start, range, order)   order = 2 === 100
+        let $myProfit = this.profit * getRandomNumber(91, 100, 2);
         if (this.fertilized) {
             cash += Math.ceil($myProfit * 1.2);
         } else {
@@ -103,6 +108,7 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
         }
         updateCash();
         this.readyToHarvest = 0;
+        this.fertilized = 0;
         this.timeoutHarvestable(n);
     }
 

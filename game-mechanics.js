@@ -3,6 +3,11 @@
 let cash = 300;
 let plot = new Array();
 
+let waterSound = new Audio('sounds/water.mp3');
+let fertilizeSound = new Audio('sounds/fertilize.mp3');
+let readySound = new Audio('sounds/ready.mp3');
+let drySound = new Audio('sounds/dry.mp3');
+
 let setPlot = function(cropType, n) {
 
     let crop;
@@ -83,25 +88,28 @@ $(document).ready(function(){
     // Select plot
     $plot.click(function(e) {
         e.stopPropagation();
-        $plot.removeClass('selected');
-        $(this).addClass('selected');
         $selectedPlot = $(this);
-        $n = $selectedPlot.index();
+        $plot.removeClass('selected');
 
-        // Show Options menu if crop (timeout is there to have time
-        // to click BUY! before it gets hidden + on show to not get
-        // hidden after last grid-item was deselected)
-        if ($(this).html()) {
-            // Harvest
-            if ($(this).hasClass('harvest')) {
-                plot[$n].harvest($n);
+        // if house not selected
+        if ($selectedPlot.index() != 20) {
+            $(this).addClass('selected');
+            $n = $selectedPlot.index();
+
+            // Show Options menu if crop (timeout is there to have time
+            // to click BUY! before it gets hidden + on show to not get
+            // hidden after last grid-item was deselected)
+            if ($(this).html()) {
+                // Harvest
+                if ($(this).hasClass('harvest')) {
+                    plot[$n].harvest($n);
+                }
+                $showOptions();
             }
-            setTimeout($showOptions, 70);
-        }
-        // Show Buy menu if empty
-        else {
-            setTimeout($showBuy, 70);
-        }
+            // Show Buy menu if empty
+            else {  $showBuy(); }
+
+        } else { $hideMenus(); }
 
     });
 
@@ -199,10 +207,7 @@ let canAfford = function(amount) {
     }
 };
 
-let getRandomNumber = function(start, range) {
-    let getRandom = Math.floor((Math.random() * range) + start);
-    while (getRandom > range) {
-        getRandom = Math.floor((Math.random() * range) + start);
-    }
-    return getRandom;
+let getRandomNumber = function(start, range, order = 0) {
+    let randomNumber = Math.ceil(Math.random() * (range - start) + start);
+    return randomNumber / Math.pow(10, order);
 };

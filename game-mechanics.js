@@ -1,12 +1,17 @@
 "use strict";
 
-let cash = 300;
+let cash = 30000;
 let plot = new Array();
 
-let waterSound = new Audio('sounds/water.mp3');
-let fertilizeSound = new Audio('sounds/fertilize.mp3');
-let readySound = new Audio('sounds/ready.mp3');
-let drySound = new Audio('sounds/dry.mp3');
+let waterSound = new Audio('sounds/vodica.mp3');
+let fertilizeSound = new Audio('sounds/zemljica.mp3');
+let readySound = new Audio('sounds/kad-sazrije.mp3');
+let drySound = new Audio('sounds/suvo.mp3');
+let deleteSound = new Audio('sounds/brisanje.mp3');
+let harvestSound = new Audio('sounds/kes.mp3');
+let selectSound = new Audio('sounds/kljik.mp3');
+let buySound = new Audio('sounds/kljik-2.mp3');
+let nopeSound = new Audio('sounds/nemoze.mp3');
 
 let setPlot = function(cropType, n) {
 
@@ -103,11 +108,16 @@ $(document).ready(function(){
                 // Harvest
                 if ($(this).hasClass('harvest')) {
                     plot[$n].harvest($n);
+                } else {
+                    selectSound.play();
                 }
                 $showOptions();
             }
             // Show Buy menu if empty
-            else {  $showBuy(); }
+            else {
+                $showBuy();
+                selectSound.play();
+            }
 
         } else { $hideMenus(); }
 
@@ -140,9 +150,11 @@ $(document).ready(function(){
             plot[$n].timeoutHarvestable($n);
             cash -= plot[$n].price;
             updateCash();
+            buySound.play();
         } else {
             // "Delete" Plot object
             plot[$n] = null;
+            nopeSound.play();
         }
         
     });
@@ -171,6 +183,8 @@ $(document).ready(function(){
     $waterCrop.click(function() {
         if (!plot[$n].watered) {
             plot[$n].water($n);
+        } else {
+            nopeSound.play();
         }
     });
 
@@ -181,6 +195,8 @@ $(document).ready(function(){
             plot[$n].fertilize($n);
             cash -= plot[$n].fertilizePrice;
             updateCash();
+        } else {
+            nopeSound.play();
         }
     });
 

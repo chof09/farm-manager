@@ -35,6 +35,8 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
         }, 15000);
     }
 
+    
+
     this.timeoutHarvestable = function(n) {
         this.harvestableID = setTimeout(function() {
             self.readyToHarvest = 1;
@@ -55,6 +57,7 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
         let $plotToWater = $('.grid-item.farm:eq(' + n + ')');
         $plotToWater.removeClass('dry');
         if (this.fertilized) {
+            $plotToWater.addClass('wet');
             $plotToWater.addClass('fertilized');
         } else {
             $plotToWater.addClass('wet');
@@ -73,14 +76,16 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
         if (this.harvestableID > 0) {
             clearTimeout(this.harvestableID);
         }
+        deleteSound.play();
         let $plotToDelete = $('.grid-item.farm:eq(' + n + ')');
+        const $body = $('body');
         $plotToDelete.removeClass('dry');
         $plotToDelete.removeClass('wet');
         $plotToDelete.removeClass('harvest');
         $plotToDelete.removeClass('fertilized');
         $plotToDelete.html('');
         if ($plotToDelete.is(':focus')) {
-            $plotToDelete.blur();
+            $body.click();
         }
     }
 
@@ -89,7 +94,7 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
         this.fertilized = 1;
         let $fertilizedPlot = $('.grid-item.farm:eq(' + n + ')');
         if (this.watered) {
-            $fertilizedPlot.removeClass('wet');
+            $fertilizedPlot.addClass('wet');
             $fertilizedPlot.addClass('fertilized');
         }
         fertilizeSound.play();
@@ -106,6 +111,7 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
         } else {
             cash += Math.ceil($myProfit);
         }
+        harvestSound.play();
         updateCash();
         this.readyToHarvest = 0;
         this.fertilized = 0;

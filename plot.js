@@ -11,10 +11,12 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
     this.available = 0;
     this.fertilized = 0;
     this.readyToHarvest = 0;
+    this.hasGrown;
 
     this.wetID;
     this.dryID = -1;
     this.harvestableID = -1;
+    this.grownID = -1;
 
     // Watered state expires in 150 sec (6 mo)
     this.timeoutWet = function(n) {
@@ -35,15 +37,25 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
         }, 15000);
     }
 
-    
-
     this.timeoutHarvestable = function(n) {
-        this.harvestableID = setTimeout(function() {
-            self.readyToHarvest = 1;
-            let $harvestablePlot = $('.grid-item.farm:eq(' + n + ')');
-            $harvestablePlot.addClass('harvest');
-            readySound.play();
-        }, this.growth*25000);
+        if (this.crop == "Apple" && !this.hasGrown) {
+            this.grownID = setTimeout(function() {
+                this.harvestableID = setTimeout(function() {
+                    self.readyToHarvest = 1;
+                    let $harvestablePlot = $('.grid-item.farm:eq(' + n + ')');
+                    $harvestablePlot.addClass('harvest');
+                    readySound.play();
+                }, this.growth*25000);
+                this.hasGrown = true;
+            }, 4*12*25000);
+        } else {
+            this.harvestableID = setTimeout(function() {
+                    self.readyToHarvest = 1;
+                    let $harvestablePlot = $('.grid-item.farm:eq(' + n + ')');
+                    $harvestablePlot.addClass('harvest');
+                    readySound.play();
+                }, this.growth*25000);
+        }
     }
 
     this.water = function(n) {
@@ -75,6 +87,9 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
         }
         if (this.harvestableID > 0) {
             clearTimeout(this.harvestableID);
+        }
+        if (this.grownID > 0) {
+            clearTimeout(this.grownID);
         }
         deleteSound.play();
         let $plotToDelete = $('.grid-item.farm:eq(' + n + ')');

@@ -3,15 +3,15 @@
 let cash = 30000;
 let plot = new Array();
 
-let waterSound = new Audio('sounds/vodica.mp3');
-let fertilizeSound = new Audio('sounds/zemljica.mp3');
-let readySound = new Audio('sounds/kad-sazrije.mp3');
-let drySound = new Audio('sounds/suvo.mp3');
-let deleteSound = new Audio('sounds/brisanje.mp3');
-let harvestSound = new Audio('sounds/kes.mp3');
-let selectSound = new Audio('sounds/kljik.mp3');
-let buySound = new Audio('sounds/kljik-2.mp3');
-let nopeSound = new Audio('sounds/nemoze.mp3');
+let waterSound = new Audio('sounds/vodica.mp3');        waterSound.volume = 0.35;
+let fertilizeSound = new Audio('sounds/zemljica.mp3');  fertilizeSound.volume = 0.3;
+let readySound = new Audio('sounds/kad-sazrije.mp3');   readySound.volume = 0.25;
+let drySound = new Audio('sounds/suvo.mp3');            drySound.volume = 0.2;
+let deleteSound = new Audio('sounds/brisanje.mp3');     deleteSound.volume = 0.9;
+let harvestSound = new Audio('sounds/novcici.mp3');     harvestSound.volume = 0.7;
+let selectSound = new Audio('sounds/kljik.mp3');        selectSound.volume = 0.2;
+let buySound = new Audio('sounds/kljik-2.mp3');         buySound.volume = 0.25;
+let nopeSound = new Audio('sounds/nemoze.mp3');         nopeSound.volume = 0.3;
 
 let setPlot = function(cropType, n) {
 

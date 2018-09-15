@@ -144,10 +144,11 @@ $(document).ready(function(){
         setPlot($crop, $n);
 
         if(canAfford(plot[$n].price)) {
+            plotArray.push(plot[$n]);
             $selectedPlot.html('<img src="imgs/' + $crop + '.png" ondragstart="return false;" />');
             $selectedPlot.addClass('wet');
-            plot[$n].timeoutWet($n);
-            plot[$n].timeoutHarvestable($n);
+            plot[$n].wateredTimeStamp = gameTime;
+            plot[$n].plantedTimeStamp = gameTime;
             cash -= plot[$n].price;
             updateCash();
             buySound.play();
@@ -204,9 +205,10 @@ $(document).ready(function(){
     let $deleteCrop = $('#delete-crop');
     $deleteCrop.click(function() {
         plot[$n].delete($n);
+        removeFromArray(plot[$n], plotArray)
         setTimeout(function() {
             plot[$n] = null;
-        }, 150);           
+        }, 500);           
     });
 
 });

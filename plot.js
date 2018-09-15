@@ -1,9 +1,12 @@
+let gameTime = 0;
+let plotArray = new Array();
 
 function Plot(crop, price, fertilizePrice, growth, profit, available) {
-    let self = this;
 
     this.crop = crop;
     this.watered = 1;
+    this.wateredTimeStamp;
+    this.dryTimeStamp;
     this.price = price;
     this.fertilizePrice = fertilizePrice;
     this.growth = growth;
@@ -11,61 +14,30 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
     this.available = 0;
     this.fertilized = 0;
     this.readyToHarvest = 0;
+    this.plantedTimeStamp;
     this.hasGrown;
-
-    this.wetID;
-    this.dryID = -1;
-    this.harvestableID = -1;
-    this.grownID = -1;
 
     // Watered state expires in 150 sec (6 mo)
     this.timeoutWet = function(n) {
-        this.wetID = setTimeout(function() {
-            self.watered = 0;
-            let $wateredPlot = $('.grid-item.farm:eq(' + n + ')');
-            $wateredPlot.removeClass('wet');
-            $wateredPlot.removeClass('fertilized');
-            $wateredPlot.addClass('dry');
-            drySound.play();
-            self.timeoutDry(n);
-        }, 6*25000);
-    }
-
-    this.timeoutDry = function(n) {
-        this.dryID = setTimeout(function() {
-            self.delete(n);
-        }, 15000);
+        this.watered = 0;
+        this.dryTimeStamp = gameTime;
+        let $wateredPlot = $('.grid-item.farm:eq(' + n + ')');
+        $wateredPlot.removeClass('wet');
+        $wateredPlot.removeClass('fertilized');
+        $wateredPlot.addClass('dry');
+        drySound.play();
     }
 
     this.timeoutHarvestable = function(n) {
-        if (this.crop == "Apple" && !this.hasGrown) {
-            this.grownID = setTimeout(function() {
-                this.harvestableID = setTimeout(function() {
-                    self.readyToHarvest = 1;
-                    let $harvestablePlot = $('.grid-item.farm:eq(' + n + ')');
-                    $harvestablePlot.addClass('harvest');
-                    readySound.play();
-                }, this.growth*25000);
-                this.hasGrown = true;
-            }, 4*12*25000);
-        } else {
-            this.harvestableID = setTimeout(function() {
-                    self.readyToHarvest = 1;
-                    let $harvestablePlot = $('.grid-item.farm:eq(' + n + ')');
-                    $harvestablePlot.addClass('harvest');
-                    readySound.play();
-                }, this.growth*25000);
-        }
+        this.readyToHarvest = 1;
+        let $harvestablePlot = $('.grid-item.farm:eq(' + n + ')');
+        $harvestablePlot.addClass('harvest');
+        readySound.play();
     }
 
     this.water = function(n) {
         this.watered = 1;
-        if (this.dryID > 0) {
-            clearTimeout(this.dryID);
-        }
-        if (this.wetID) {
-            clearTimeout(this.wetID);
-        }
+        this.wateredTimeStamp = gameTime;
         let $plotToWater = $('.grid-item.farm:eq(' + n + ')');
         $plotToWater.removeClass('dry');
         if (this.fertilized) {
@@ -75,22 +47,11 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
             $plotToWater.addClass('wet');
         }
         waterSound.play();
-        this.timeoutWet(n);
     }
 
     this.delete = function(n) {
-        clearTimeout(this.wetID);
         this.watered = 0;
         this.fertilized = 0;
-        if (this.dryID > 0) {
-            clearTimeout(this.dryID);
-        }
-        if (this.harvestableID > 0) {
-            clearTimeout(this.harvestableID);
-        }
-        if (this.grownID > 0) {
-            clearTimeout(this.grownID);
-        }
         deleteSound.play();
         let $plotToDelete = $('.grid-item.farm:eq(' + n + ')');
         const $body = $('body');
@@ -130,7 +91,14 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
         updateCash();
         this.readyToHarvest = 0;
         this.fertilized = 0;
-        this.timeoutHarvestable(n);
+        this.plantedTimeStamp = gameTime;
     }
 
+}
+
+function removeFromArray(element, array) {
+    let index = array.indexOf(element);
+    if (index > -1) {
+      array.splice(index, 1);
+    }
 }

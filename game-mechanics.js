@@ -2,6 +2,7 @@
 
 let cash = 300;
 let plot = new Array();
+let updateOptionsHeader;
 
 let waterSound = new Audio('sounds/vodica.mp3');        waterSound.volume = 0.35;
 let fertilizeSound = new Audio('sounds/zemljica.mp3');  fertilizeSound.volume = 0.3;
@@ -20,7 +21,6 @@ let setPlot = function(cropType, n) {
     let fertilizePrice;
     let growth;
     let profit;
-    let available;
 
     switch (cropType) {
         case "wheat":
@@ -29,7 +29,6 @@ let setPlot = function(cropType, n) {
             fertilizePrice = 14;
             growth = 6;
             profit = 55;
-            available = 1;
             break;
         case "carrot":
             crop = "Carrot";
@@ -37,7 +36,6 @@ let setPlot = function(cropType, n) {
             fertilizePrice = 20;
             growth = 6;
             profit = 95;
-            available = 1;
             break;
         case "potato":
             crop = "Potato";
@@ -45,7 +43,6 @@ let setPlot = function(cropType, n) {
             fertilizePrice = 37;
             growth = 7;
             profit = 169;
-            available = 1;
             break;
         case "tomato":
             crop = "Tomato";
@@ -53,7 +50,6 @@ let setPlot = function(cropType, n) {
             fertilizePrice = 88;
             growth = 9;
             profit = 338;
-            available = 1;
             break;
         case "apple":
             crop = "Apple";
@@ -61,11 +57,10 @@ let setPlot = function(cropType, n) {
             fertilizePrice = 183;
             growth = 12;
             profit = 720;
-            available = 1;
             break;
     }
 
-    plot[n] = new Plot(crop, price, fertilizePrice, growth, profit, available);
+    plot[n] = new Plot(crop, price, fertilizePrice, growth, profit);
 
 }
 
@@ -79,6 +74,7 @@ $(document).ready(function(){
     let $optionsMenu = $('.grid-container.options');
     let $buyMenu = $('.grid-container.buy');
     let $buyOption = $('.buy-btn');
+    let $optionsHeader = $('#options-header');
 
     let $showOptions = function() {
         $buyMenu.addClass('hidden');
@@ -98,23 +94,39 @@ $(document).ready(function(){
 
         // if house not selected
         if ($selectedPlot.index() != 20) {
+
             $(this).addClass('selected');
             $n = $selectedPlot.index();
 
-            // Show Options menu if crop (timeout is there to have time
-            // to click BUY! before it gets hidden + on show to not get
-            // hidden after last grid-item was deselected)
+            // Show Options menu if plot with crop
             if ($(this).html()) {
+
+                for (let singlePlot of plot) {
+                    if (singlePlot) {
+                        singlePlot.isSelected = 0;
+                    }
+                }
+
                 // Harvest
                 if ($(this).hasClass('harvest')) {
                     plot[$n].harvest($n);
                 } else {
                     selectSound.play();
                 }
+                
+                plot[$n].isSelected = 1;
                 $showOptions();
+                updateOptionsHeader();
+                updateOptionsInfo();
+
             }
             // Show Buy menu if empty
             else {
+                for (let singlePlot of plot) {
+                    if (singlePlot) {
+                        singlePlot.isSelected = 0;
+                    }
+                }
                 $showBuy();
                 selectSound.play();
             }
@@ -133,6 +145,11 @@ $(document).ready(function(){
         $hideMenus();
         if ($selectedPlot) {
             $selectedPlot.removeClass('selected');
+        }
+        for (let singlePlot of plot) {
+            if (singlePlot) {
+                singlePlot.isSelected = 0;
+            }
         }
     });
 
@@ -207,6 +224,48 @@ $(document).ready(function(){
         plot[$n].delete($n);
         removeFromArray(plot[$n], plotArray);
     });
+
+
+    updateOptionsHeader = function () {
+        // is watered?
+        if (plot[$n].watered) {
+            if (!plotStatus.includes('wet')) {
+                plotStatus.unshift('wet');
+            }
+            removeFromArray('dry', plotStatus);
+        } else {
+            if (!plotStatus.includes('dry')) {
+                plotStatus.unshift('dry');
+            }
+            removeFromArray('wet', plotStatus);
+        }
+        // is fertilized?
+        if (plot[$n].fertilized) {
+            if(!plotStatus.includes('fertilized')) {
+                plotStatus.push('fertilized');
+            }
+        } else {
+            removeFromArray('fertilized', plotStatus);
+        }
+
+        $optionsHeader.html(plot[$n].crop + ' - ' + plotStatus.join(', '));
+
+    };
+
+    function updateOptionsInfo() {
+
+        let $plotInfoPrice = $('#plot-info-price');
+        let $plotInfoGrowth = $('#plot-info-growth');
+        let $plotInfoHarvest = $('#plot-info-harvest');
+
+        let $minProfit = Math.ceil(0.91 * plot[$n].profit);
+        let $approxHarvest = `${$minProfit} - ${plot[$n].profit}`;
+
+        $plotInfoPrice.html(plot[$n].price);
+        $plotInfoGrowth.html(plot[$n].growth);
+        $plotInfoHarvest.html($approxHarvest);
+
+    }
 
 });
 

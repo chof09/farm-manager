@@ -212,13 +212,6 @@ a:focus {
     color: #5B2A00;
 }
 
-.grid-item.buy.apple table tbody tr.growth-rate td:nth-child(2)::after {
-    content: "* after growth, harvestable once per year";
-    position: absolute;
-    padding-left: 10px;
-    font-size: 12px;
-}
-
 .grid-item.buy table tbody tr.income-per-harvest {
     color: #C38A00;
 }

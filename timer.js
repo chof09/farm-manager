@@ -49,6 +49,10 @@ function gameClock(speed) {
                     }
                 }
 
+                if (singlePlot.isSelected) {
+                    updateOptionsHeader();
+                }
+
             }
         }
 
@@ -56,6 +60,8 @@ function gameClock(speed) {
 
     }, speed);
 }
+
+gameClock(1000);
 
 function stopGameClock() {
     if (gameClockID > 0) {

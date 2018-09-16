@@ -1,7 +1,8 @@
 let gameTime = 0;
 let plotArray = new Array();
+let plotStatus = new Array();
 
-function Plot(crop, price, fertilizePrice, growth, profit, available) {
+function Plot(crop, price, fertilizePrice, growth, profit, isSelected = 0) {
 
     this.crop = crop;
     this.watered = 1;
@@ -11,7 +12,7 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
     this.fertilizePrice = fertilizePrice;
     this.growth = growth;
     this.profit = profit;
-    this.available = 0;
+    this.isSelected = isSelected;
     this.fertilized = 0;
     this.readyToHarvest = 0;
     this.plantedTimeStamp;

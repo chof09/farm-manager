@@ -38,10 +38,10 @@
 				<div class="grid-item top speed">
 
 					<p>
-						<a href="#" value="pause" onclick="stopClock();"><img src="imgs/pause-active-sm.png" /></a>
-						<a href="#" value="play" onclick="startClock('1x');"><img src="imgs/play-inactive-sm.png" /></a>
-						<a href="#" value="2xspeed" onclick="startClock('2x');"><img src="imgs/2xspeed-inactive-sm.png" /></a>
-						<a href="#" value="4xspeed" onclick="startClock('4x');"><img src="imgs/4xspeed-inactive-sm.png" /></a>
+						<a href="#" value="pause" onclick="stopGameClock();"><img src="imgs/pause-active-sm.png" /></a>
+						<a href="#" value="play" onclick="gameClock(1000);"><img src="imgs/play-inactive-sm.png" /></a>
+						<a href="#" value="2xspeed" onclick="gameClock(500);"><img src="imgs/2xspeed-inactive-sm.png" /></a>
+						<a href="#" value="4xspeed" onclick="gameClock(250);"><img src="imgs/4xspeed-inactive-sm.png" /></a>
 					</p>
 
 				</div>
@@ -274,7 +274,6 @@
 
 		</div>
 
-	<!-- <script src="timers.js"></script> -->
 	<script src="plot.js"></script>
 	<script src="game-mechanics.js"></script>
 	<script src="timer.js"></script>

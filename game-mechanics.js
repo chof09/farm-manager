@@ -205,10 +205,7 @@ $(document).ready(function(){
     let $deleteCrop = $('#delete-crop');
     $deleteCrop.click(function() {
         plot[$n].delete($n);
-        removeFromArray(plot[$n], plotArray)
-        setTimeout(function() {
-            plot[$n] = null;
-        }, 500);           
+        removeFromArray(plot[$n], plotArray);
     });
 
 });

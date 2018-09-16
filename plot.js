@@ -15,7 +15,6 @@ function Plot(crop, price, fertilizePrice, growth, profit, available) {
     this.fertilized = 0;
     this.readyToHarvest = 0;
     this.plantedTimeStamp;
-    this.hasGrown;
 
     // Watered state expires in 150 sec (6 mo)
     this.timeoutWet = function(n) {

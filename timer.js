@@ -1,13 +1,27 @@
 let gameClockID = -1;
 
-function GameClock(speed) {
+// Output current time in YY / MM format
+function getGameTime(currentTime) {
+    let mo = Math.ceil(currentTime / 25);
+    let yr = Math.ceil(mo / 12);
+    let result;
+    mo == 0 && yr == 0
+        ? result = "<p>Y1 / M1</p>"
+        : result = "<p>Y" + yr + " / " + "M" + (mo - ((yr-1) * 12)) + "</p>";
+    return result;
+}
+
+function gameClock(speed) {
 
     if (gameClockID > 0) {
-        clearTImeout(gameClockID);
+        clearInterval(gameClockID);
     }
 
     gameClockID = setInterval(function() {
 
+        document.getElementById("game-clock").innerHTML = getGameTime(gameTime);
+
+        // Check Plot status
         if (plotArray) {
             for (let singlePlot of plotArray) {
 
@@ -22,7 +36,7 @@ function GameClock(speed) {
 
                 // Dry, begin the decay timer
                 if (!singlePlot.watered) {
-                    if (gameTime >= singlePlot.dryTimeStamp + 15) {
+                    if (gameTime >= singlePlot.dryTimeStamp + 20) {
                         singlePlot.delete(plotIndex);
                         removeFromArray(singlePlot, plotArray)
                     }
@@ -43,5 +57,8 @@ function GameClock(speed) {
     }, speed);
 }
 
-GameClock(1000);
-
+function stopGameClock() {
+    if (gameClockID > 0) {
+        clearInterval(gameClockID);
+    }
+}

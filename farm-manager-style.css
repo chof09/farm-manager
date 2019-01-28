@@ -134,13 +134,19 @@ a:focus {
 .grid-item.farm {
     display: block;
     background-color: var(--empty-plot, #458417);
-    /*background-image: url('imgs/textures/grass_top.jpg');*/
     border: 5px solid var(--neutral-border, #482E17);
     border-radius: 15px;
     width: 80px;
     height: 80px;
     position: relative;
     cursor: pointer;
+
+    /*user-drag: none; 
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;*/
 }
 
 .grid-item.span-2 {
@@ -149,14 +155,14 @@ a:focus {
     height: auto;
 }
 
-.grid-item.farm img {
+/*.grid-item.farm img {
     user-drag: none; 
     user-select: none;
     -moz-user-select: none;
     -webkit-user-drag: none;
     -webkit-user-select: none;
     -ms-user-select: none;
-}
+}*/
 
 .grid-item.farm.home {
     border: none;
@@ -224,7 +230,7 @@ a:focus {
     background-color: #589706;
     border: 2px solid #4E7C12;
     border-radius: 15px;
-    padding: 3px 12px;
+    padding: 4px 20px;
     text-decoration: none;
     color: #FFFFFF;
     font-size: 12px;
@@ -247,8 +253,7 @@ a:focus {
     position: relative;
 }
 
-.grid-item.options.fertilize-crop a::after {
-    content: '-14$';
+#fertilize-price {
     display: inline-block;
     position: absolute;
     color: #8F0000;

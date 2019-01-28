@@ -38,7 +38,7 @@ function gameClock(speed) {
                 if (!singlePlot.watered) {
                     if (gameTime >= singlePlot.dryTimeStamp + 20) {
                         singlePlot.delete(plotIndex);
-                        removeFromArray(singlePlot, plotArray)
+                        removeFromArray(singlePlot, plotArray);
                     }
                 }
 

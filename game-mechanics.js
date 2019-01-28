@@ -119,6 +119,8 @@ $(document).ready(function(){
                 updateOptionsHeader();
                 updateOptionsInfo();
 
+                $('#fertilize-price').html('-' + plot[$n].fertilizePrice + '$');
+
             }
             // Show Buy menu if empty
             else {

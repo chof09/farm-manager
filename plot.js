@@ -50,19 +50,19 @@ function Plot(crop, price, fertilizePrice, growth, profit, isSelected = 0) {
     }
 
     this.delete = function(n) {
+        const $body = $('body');
+        let $plotToDelete = $('.grid-item.farm:eq(' + n + ')');
+        if ($plotToDelete.is(':focus')) {
+            $body.click();
+        }
         this.watered = 0;
         this.fertilized = 0;
         deleteSound.play();
-        let $plotToDelete = $('.grid-item.farm:eq(' + n + ')');
-        const $body = $('body');
         $plotToDelete.removeClass('dry');
         $plotToDelete.removeClass('wet');
         $plotToDelete.removeClass('harvest');
         $plotToDelete.removeClass('fertilized');
         $plotToDelete.html('');
-        if ($plotToDelete.is(':focus')) {
-            $body.click();
-        }
     }
 
     // Fertalized state expires when harvested
